@@ -1,0 +1,4 @@
+# 1. Schema - where is the graphql schema located?
+schema:"https://api-mumbai.lens.dev/"
+# 2. Documents - what path are the graphql operations located
+documents:"src/graphql/*.graphql"
