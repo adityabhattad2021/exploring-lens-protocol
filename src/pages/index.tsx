@@ -17,7 +17,7 @@ export default function Home() {
 	console.log(
 		data,
 		isLoading,
-		error,
+		error
 	);
 	
 
