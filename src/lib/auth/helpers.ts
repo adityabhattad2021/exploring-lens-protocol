@@ -47,10 +47,10 @@ export function readAccessToken(){
 // 2. Setting the access token in the storage.
 export function setAccessToken(accessToken: string,refreshToken: string){
 
-    // 1. Parse the JWT token to get the expiration date
+    // 1. Parse the JWT token to get the expiration date.
     const {exp}=parseJwt(accessToken);
 
-    // 2. Set all the three variables inside local storage using the storage key
+    // 2. Set all the three variables inside local storage using the storage key.
     const ls=localStorage || window.localStorage;
 
     if(!ls){

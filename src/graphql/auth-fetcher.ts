@@ -1,3 +1,6 @@
+import { isTokenExpired, readAccessToken } from "../lib/auth/helpers";
+import refreshAccessToken from "../lib/auth/refreshAccessToken";
+
 const endpoint = "https://api.lens.dev/";
 
 export const fetcher = <TData, TVariables>(
@@ -5,13 +8,50 @@ export const fetcher = <TData, TVariables>(
 	variables?: TVariables,
 	options?: RequestInit["headers"]
 ): (() => Promise<TData>) => {
+
+	async function getAccessToken(){
+		// 1. Check the local storage for the access token.
+		const token = readAccessToken();
+
+		// 2. If there isn't a token, then return null (not signed in).
+		if(!token){
+			return null;
+		}
+
+		let accessToken=token.accessToken;
+
+		// 3. If there is a token, then check it's expiration.
+		if(isTokenExpired(token.exp)){		
+
+			// 4. If it's expired, update it using the refresh token.
+			const newToken=await refreshAccessToken();
+
+			if(!newToken){
+				return null;
+			}
+
+			accessToken=newToken;
+
+			return accessToken;
+
+		}
+
+		
+
+		// return the token.
+	}
+
 	return async () => {
+
+		const token = typeof window === "undefined" ? null : await getAccessToken();
+
 		const response = await fetch(endpoint, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 				...options,
-                // TODO: Add authentication headers here.
+                "x-access-token": token ? token : "",
+				"Access-Control-Allow-Origin":"*",
 			},
 			body: JSON.stringify({
 				query,
