@@ -1,29 +1,64 @@
 import { fetcher } from "@/src/graphql/auth-fetcher";
-import { RefreshDocument, RefreshMutation, RefreshMutationVariables } from "@/src/graphql/generated";
+import {
+	RefreshDocument,
+	RefreshMutation,
+	RefreshMutationVariables,
+} from "@/src/graphql/generated";
 import { readAccessToken, setAccessToken } from "./helpers";
 
-export default async function refreshAccessToken(){
-    // 1. Get our current refresh token from locl storage.
-    const currentRefreshToken = readAccessToken()?.refreshToken;
+const endpoint = "https://api.lens.dev/";
 
-    if(!currentRefreshToken){
-        return null;
-    }
+export default async function refreshAccessToken() {
+	// 1. Get our current refresh token from locl storage.
+	const currentRefreshToken = readAccessToken()?.refreshToken;
 
-    // 2. Send it to lens to ask for new access token.
-    const result = await fetcher<RefreshMutation,RefreshMutationVariables>(
-        RefreshDocument,
-        {
-            request:{
-                refreshToken:currentRefreshToken,
-            }
-        }
-    )();
+	if (!currentRefreshToken) {
+		return null;
+	}
 
-    // 3. Set the new access token in local storage.
-    const {accessToken,refreshToken:newRefreshToken}=result?.refresh;
-    setAccessToken(accessToken,newRefreshToken);
+	async function fetchData<TData, TVariables>(
+		query: string,
+		variables?: TVariables,
+		options?: RequestInit["headers"]
+	): Promise<TData> {
+		const response = await fetch(endpoint, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				...options,
+				"Access-Control-Allow-Origin": "*",
+			},
+			body: JSON.stringify({
+				query,
+				variables,
+			}),
+		});
 
-    return accessToken as string;
+		const json = await response.json();
 
+		if (json.errors) {
+			const { message } = json.errors[0] || {};
+			throw new Error(message || "Error...");
+		}
+
+		return json.data;
+	}
+
+	const result = await fetchData<RefreshMutation, RefreshMutationVariables>(
+		RefreshDocument,
+		{
+			request: {
+				refreshToken: currentRefreshToken,
+			},
+		}
+	);
+
+	const {
+		refresh: { accessToken, refreshToken: newRefreshToken },
+	} = result;
+
+	// 2. Set the new access token in local storage.
+	setAccessToken(accessToken, newRefreshToken);
+
+	return accessToken as string;
 }

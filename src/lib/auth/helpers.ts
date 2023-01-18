@@ -5,10 +5,10 @@ const STORAGE_KEY="LH_STORAGE_KEY";
 export function isTokenExpired(exp:number){
 
     if(!exp){
-        return null;
+        return true;
     }
 
-    if(Date.now() >= exp*1000){
+    if(Date.now() >= exp*1000){        
         return false;
     }
 

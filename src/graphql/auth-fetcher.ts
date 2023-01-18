@@ -32,18 +32,18 @@ export const fetcher = <TData, TVariables>(
 
 			accessToken=newToken;
 
-			return accessToken;
-
 		}
 
-		
-
 		// return the token.
+		return accessToken;
 	}
 
 	return async () => {
 
-		const token = typeof window === "undefined" ? null : await getAccessToken();
+		// console.log(typeof window === "undefined");
+		const token = typeof window !== "undefined" ? await getAccessToken() : null;
+
+		
 
 		const response = await fetch(endpoint, {
 			method: "POST",
