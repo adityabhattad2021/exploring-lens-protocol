@@ -1,4 +1,5 @@
 import { MediaRenderer } from "@thirdweb-dev/react";
+import Link from "next/link";
 import React from "react";
 import { ExplorePublicationsQuery } from "../graphql/generated";
 import styles from "../styles/FeedPost.module.css";
@@ -19,9 +20,12 @@ export default function FeedPost({ publication }: Props) {
 					className={styles.feedPostProfilePicture}
 				/>
 				{/* Author Profile Name */}
-				<p className={styles.feedPostProfileName}>
+				<Link
+					href={`/profile/${publication.profile.handle}`}
+					className={styles.feedPostProfileName}
+				>
 					{publication.profile.name || publication.profile.handle}
-				</p>
+				</Link>
 			</div>
 			<div className={styles.feedPostContent}>
 				{/* Name of the post */}
@@ -39,9 +43,14 @@ export default function FeedPost({ publication }: Props) {
 					<MediaRenderer
 						src={publication.metadata.media[0].original.url}
 						alt={publication.metadata.name || ""}
-						className={styles.feedPostContentImage}
+						className={styles.feedPostContentImage }
 					/>
 				)}
+			</div>
+			<div className={styles.feedPostFooter}>
+				<p>{publication.stats.totalAmountOfCollects} Collects</p>
+				<p>{publication.stats.totalAmountOfComments} Comments</p>
+				<p>{publication.stats.totalAmountOfMirrors} Mirrors</p>
 			</div>
 		</div>
 	);

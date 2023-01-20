@@ -8,50 +8,47 @@
     border-radius: 10px;
     padding: 16px;
     margin-bottom: 16px;
+    width: 100%;
+    gap: 16px;
     text-align: center;
-}
-
-.feedPostHeader {
+  }
+  
+  .feedPostHeader {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 12px;
-}
-
-
-.feedPostProfilePicture {
+  }
+  
+  .feedPostProfilePicture {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     border: 1px solid black;
-}
-
-.feedPostProfileName {
+  }
+  
+  .feedPostProfileName {
     font-size: 16px;
     font-weight: 600;
-}
-
-.feedPostContentImage {
+  }
+  
+  .feedPostContentImage {
     height: 256px;
-}
-
-.feedPostContentTitle {
+  }
+  
+  .feedPostContentTitle {
     font-size: 24px;
     font-weight: 600;
-}
-
-.feedPostContentDescription {
+  }
+  
+  .feedPostContentDescription {
     font-size: 16px;
     font-weight: 400;
-}
-
-.feedPostFooter {
+  }
+  
+  .feedPostFooter {
     display: flex;
     flex-direction: row;
     gap: 16px;
-}
-
-.feedPostContentImage {
-    height: 256px;
-}
+  }
