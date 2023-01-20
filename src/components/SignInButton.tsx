@@ -1,11 +1,12 @@
 import {
 	ChainId,
 	ConnectWallet,
+	MediaRenderer,
 	useAddress,
 	useNetwork,
 	useNetworkMismatch,
 } from "@thirdweb-dev/react";
-import { profile } from "console";
+import Link from "next/link";
 import React from "react";
 import useLensUser from "../lib/auth/useLensUser";
 import useLogin from "../lib/auth/useLogin";
@@ -61,7 +62,22 @@ export default function SignInButton({}: Props) {
 
 	// if it's done loading and there's a default profile
 	if(profileQuery.data?.defaultProfile){
-		return <div>Hello {profileQuery.data?.defaultProfile?.handle}</div>
+		return (
+			<Link
+				href={`/profile/${profileQuery.data.defaultProfile.handle}`}
+			>
+				<MediaRenderer
+					// @ts-ignore
+					src={profileQuery.data.defaultProfile.picture.original.url}
+					alt={profileQuery.data.defaultProfile.name || ""}
+					style={{
+						width:"48px",
+						height:"48px",
+						borderRadius:"50%"
+					}}
+				/>
+			</Link>
+		)
 	}
 
 	return (

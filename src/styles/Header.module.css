@@ -1,0 +1,33 @@
+.headerContainer {
+    height: 64px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: darkslategray;
+    border-bottom: 1px solid white;
+    z-index: 99999;
+}
+
+.home{
+    font-weight: bolder;
+    margin-left: 20px;
+}
+
+.left {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    gap: 16px;
+}
+
+.right {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-right: 16px;
+}
