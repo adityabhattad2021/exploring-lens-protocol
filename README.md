@@ -5,3 +5,4 @@ Functionality:
  - Fetch Profiles
  - Login with Lens
  - Follow User
+ - Create Post

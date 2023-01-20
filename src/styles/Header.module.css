@@ -21,7 +21,7 @@
 .left {
     display: flex;
     flex-direction: row;
-    align-items: left;
+    align-items: center;
     gap: 16px;
 }
 

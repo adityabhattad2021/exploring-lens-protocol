@@ -11,6 +11,9 @@ export default function Header() {
 					<Link href={"/"}>
                         <h1 className={styles.home}>Home</h1>
                     </Link>
+					<Link href={"/create"}>
+						<h3>Create Post</h3>
+					</Link>
 				</div>
 				<div className={styles.right}>
 					<SignInButton />
